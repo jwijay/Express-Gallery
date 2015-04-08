@@ -21,7 +21,6 @@ router.get('/admin', ensureAuthenticated, function (req, res) {
   // calls all photos in database
   Photo.find(function (err, photos ) {
     if (err) throw err;
-    console.log(photos);
     // rendering jade template gallery all of the photos are passed to template
     // for photo in photos
     res.render('admin', { photos : photos, logged_in : true, username : req.user.username });
@@ -34,7 +33,6 @@ router.list = function (req, res) {
   // calls all photos in database
   Photo.find().sort({created_at:-1}).exec(function (err, photos ) {
     if (err) throw err;
-    console.log(photos);
     // rendering jade template gallery all of the photos are passed to template
     // for photo in photos
     var userLoggedIn = getUsername(req, res);
@@ -98,7 +96,6 @@ router.get('/:id', function (req, res) {
 // post gallery goes here to test for making new ones
 // this route accepts new user data from the client
 router.post('/', ensureAuthenticated, function (req, res) {
-  console.log(req.body);
   // creates a newPhoto item with that data 
   var newPhoto = new Photo({
     author: req.body.author,
@@ -106,14 +103,12 @@ router.post('/', ensureAuthenticated, function (req, res) {
     description: req.body.description,
     created_at: new Date()
   });
-  console.log(newPhoto);
   newPhoto.save(function (err){
     if (err) {
       throw err;
     }
     // Redirects to root
     res.redirect('/');
-    console.log('saved');
   });
 });
 
